@@ -56,28 +56,32 @@ def getMessage():
 def sendMessage(client_channel):
     
     while True:
+        try:
+            #ask message from the client
+            client_message = input('')
+            #if wants to disconnect from server
+            if(client_message == '!q'):
+                client.send(client_message.encode('utf-8'))
+                client.close()
+                break
+            #if wants to change channel
+            elif(client_message == 'CH1'):
+                client_channel = '1'
+                client.send(client_message.encode('utf-8'))
 
-        #ask message from the client
-        client_message = input('')
-        #if wants to disconnect from server
-        if(client_message == '!q'):
-            client.send(client_message.encode('utf-8'))
+            #if wants to change channel
+            elif(client_message == 'CH2'):
+                client_channel = '2'
+                client.send(client_message.encode('utf-8'))
+            #normal chat message
+            else:
+                full_message = "<CH{} {}>{}".format(client_channel,client_nickname,client_message)
+                #send message to server
+                client.send(full_message.encode('utf-8'))
+        except:
             client.close()
-            break
-        #if wants to change channel
-        elif(client_message == 'CH1'):
-            client_channel = '1'
-            client.send(client_message.encode('utf-8'))
-
-        #if wants to change channel
-        elif(client_message == 'CH2'):
-            client_channel = '2'
-            client.send(client_message.encode('utf-8'))
-        #normal chat message
-        else:
-            full_message = "<CH{} {}>{}".format(client_channel,client_nickname,client_message)
-            #send message to server
-            client.send(full_message.encode('utf-8'))
+            sys.exit()
+            
             
             
   
